@@ -1,0 +1,21 @@
+#通过radius下发路由配置
+routes:
+  test1:
+    - 192.168.111.0/24
+    - 192.168.112.0/24
+  test2:
+    - 192.168.211.0/24
+    - 192.168.212.0/24
+
+users:
+  69789@test: [test1,test2]
+  22222@default: [test2]
+  33333@default: [test3]
+
+
+# 通过radius获取登录用户的ocserv group名称, 匹配ocserv本地的路由配置
+groups:
+  bangdao:
+    - 69789@test
+  test1:
+    - 11111@default
