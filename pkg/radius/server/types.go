@@ -13,8 +13,8 @@ type RadiusServer struct {
 }
 
 type UserService interface {
-	UserRoutesQuery(user string) (routes []string) // ocserv auth config groupconfig=true
-	UserGroupQuery(username string) string         // ocserv auth config groupconfig=false
+	UserRoutesQuery(user, nasIdentifier string) (routes []string) // ocserv auth config groupconfig=true
+	UserGroupQuery(username, nasIdentifier string) string         // ocserv auth config groupconfig=false
 	Authentication(username, password string) error
 	LoginInfoHandler(username, password, nasIdentifier, clientAddr, clientSoftwareVersion, radiusCode string, err error)
 }

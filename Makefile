@@ -9,7 +9,7 @@ radius:
 test:
 	docker rm -f ocserv radius
 	docker run -d --name ocserv --privileged -e AUTH=RADIUS -e RADIUS_SERVER=localhost -p:443:443 -e RADIUS_CLIENT_ID=test  -e AUTH=RADIUS ${REPO}/ocserv:1.1.6
-	docker run -d --name radius --network=container:ocserv ${REPO}/radius-server -listenaddr 127.0.0.1:1812
+	docker run -d --name radius --network=container:ocserv ${REPO}/radius-server -listenaddr 127.0.0.1:1812 -bypass 111111
 
 push:
 	docker push ${REPO}/ocserv:1.1.6

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -63,8 +62,7 @@ func (rs *RadiusServer) authHandler() func(w radius.ResponseWriter, r *radius.Re
 		nasIdentifier := rfc2865.NASIdentifier_GetString(r.Packet)
 		clientAddr := rfc2865.CallingStationID_GetString(r.Packet)
 		clientSoftwareVersion := rfc2869.ConnectInfo_GetString(r.Packet)
-		user := strings.Join([]string{username, nasIdentifier}, "@")
-		code, routes, group, err := rs.responseCode(user, password)
+		code, routes, group, err := rs.responseCode(username, password, nasIdentifier)
 		rs.userService.LoginInfoHandler(username, password, nasIdentifier, clientAddr, clientSoftwareVersion, code.String(), err)
 		responsePacket := r.Response(code)
 		if group != "" {
@@ -81,10 +79,9 @@ func (rs *RadiusServer) authHandler() func(w radius.ResponseWriter, r *radius.Re
 	}
 }
 
-func (rs *RadiusServer) responseCode(user, password string) (radius.Code, []string, string, error) {
-	username := strings.Split(user, "@")[0]
-	routes := rs.userService.UserRoutesQuery(user)
-	group := rs.userService.UserGroupQuery(user)
+func (rs *RadiusServer) responseCode(username, password, nasIdentifier string) (radius.Code, []string, string, error) {
+	routes := rs.userService.UserRoutesQuery(username, nasIdentifier)
+	group := rs.userService.UserGroupQuery(username, nasIdentifier)
 	if len(routes) == 0 && group == "" {
 		return radius.CodeAccessReject, routes, group, errors.New("user routes or group not found")
 	}

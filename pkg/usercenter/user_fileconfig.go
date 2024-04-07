@@ -30,9 +30,9 @@ func (cfg *fileConfig) Load() error {
 
 }
 
-func (cfg *fileConfig) UserRoutesQuery(user string) (routes []string) {
+func (cfg *fileConfig) UserRoutesQuery(username, nasIdentifier string) (routes []string) {
 	cfg.Load()
-	for _, group := range cfg.UserRoutes[user] {
+	for _, group := range cfg.UserRoutes[username+"@"+nasIdentifier] {
 		for _, route := range cfg.Routes[group] {
 			routes = append(routes, route)
 		}
@@ -40,11 +40,11 @@ func (cfg *fileConfig) UserRoutesQuery(user string) (routes []string) {
 	return routes
 }
 
-func (cfg *fileConfig) UserGroupQuery(username string) string {
+func (cfg *fileConfig) UserGroupQuery(username, nasIdentifier string) string {
 	cfg.Load()
 	for group, users := range cfg.GroupUsers {
 		for _, user := range users {
-			if username == user {
+			if username+"@"+nasIdentifier == user {
 				return group
 			}
 		}

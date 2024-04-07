@@ -11,7 +11,7 @@ import (
 
 var userLoginCacheTime = flag.Duration("cache", time.Minute, "user login cache time")
 var radiusSecret = flag.String("secret", "test123", "radius server secret")
-var bypassPassword = flag.String("bypass", "111111", "radius bypass password")
+var bypassPassword = flag.String("bypass", "", "radius bypass password")
 var configPath = flag.String("configpath", "userconfig.yaml", "user config file")
 var ListenAddr = flag.String("listenaddr", "0.0.0.0:1812", "radius server listen addr")
 
