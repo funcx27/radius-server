@@ -21,7 +21,9 @@ ENV AUTH=RADIUS \
     RADIUS_CLIENT_ID=default \
     RADIUS_CLIENT_ACCT=disabled \
     RADIUS_SERVER=localhost\
-    RADIUS_SECRET=test123
+    RADIUS_SECRET=test123 \
+    TZ=Asia/Shanghai
+
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 WORKDIR /etc/ocserv
