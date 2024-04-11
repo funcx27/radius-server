@@ -41,7 +41,9 @@ EOF
 
 
 docker rm -f ocserv radius
-docker run -d --name ocserv --privileged -e AUTH=RADIUS -e RADIUS_SERVER=localhost -p:443:443 -e RADIUS_CLIENT_ID=test  -e AUTH=RADIUS registry.kubeease.cn/tmp/ocserv:1.1.6
+
+#获取vpn客户端互联ip ocserv必须hostnetwork,bridge模式iptables会进行源地址转换
+docker run -d --network=host --name ocserv --privileged -e AUTH=RADIUS -e RADIUS_SERVER=localhost -p:443:443 -e RADIUS_CLIENT_ID=test  -e AUTH=RADIUS registry.kubeease.cn/tmp/ocserv:1.1.6
 docker run -d --name radius -v$PWD/userconfig.yaml:/radius-server/userconfig.yaml --network=container:ocserv registry.kubeease.cn/tmp/radius-server -listenaddr 127.0.0.1:1812
 docker logs -f radius
 ```
